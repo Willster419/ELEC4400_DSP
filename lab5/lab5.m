@@ -3,6 +3,7 @@
 %lab5
 %ELEC4400 DSP
 %forward and backward difference stuff
+%NOTE: steps 1-5 and 8 are written on paper
 clear();
 interval = 10^-3;
 t = 0:interval:11;
