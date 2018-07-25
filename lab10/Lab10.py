@@ -17,7 +17,7 @@ plt.style.use('ggplot')
 #make the time domain signal. 1000 data points, 2 seconds in duration
 x_index = np.linspace(0,2,1000)
 
-#define the input signal
+#define the input signal (xt)
 input_singal = np.cos(2*np.pi*10*x_index) + np.cos(2*np.pi*100*x_index) + np.cos(2*np.pi*200*x_index)
 
 #the fft of the input signal
@@ -30,6 +30,7 @@ i_fft_input_out = ifft(fft_input_out)
 #create three graphs for plotting
 #graph of first plot
 f,xarr = plt.subplots(3)
+plt.tight_layout()
 xarr[0].set_title('noisy signal')
 xarr[0].plot(x_index,input_singal)
 
@@ -42,12 +43,14 @@ xarr[1].plot(x_index_frequency,np.abs(fft_input_out))
 #graph of inverse of fftr
 xarr[2].set_title('ifft')
 xarr[2].plot(x_index,i_fft_input_out)
-
+#https://stackoverflow.com/questions/13228254/subplots-are-overlapping-axis-labels
+plt.tight_layout()
 plt.show()
 
 #problem 2 - time domain filtering
 N = 15
 b = (1/N)*np.ones(N)
+#input_singal=xt
 filtered_output = lfilter(b,1,input_singal)
 
 p2_f,p2_xarr = plt.subplots(2)
@@ -57,14 +60,15 @@ p2_xarr[0].plot(x_index,input_singal)
 
 p2_xarr[1].set_title('filtered signal')
 p2_xarr[1].plot(x_index, filtered_output)
-
+plt.tight_layout()
 plt.show()
 
 
 #probmel 3 - frequency domain filtering
-hz,H = freqz(b,1,worN=x_index_frequency*2*np.pi/1000)
+#check for sampled rate
+hz,H = freqz(b,1,worN=x_index_frequency*2*np.pi/500)
 
-hzTrue = hz*1000/(2*np.pi)
+hzTrue = hz*500/(2*np.pi)
 
 fft_input_out_filtered = fft_input_out*H
 
@@ -85,7 +89,7 @@ p3_xarr[2].set_title('frequency domain filtered signal')
 p3_xarr[2].set_xlim([0,250])
 #xarr[1].plot(x_index_frequency,np.abs(fft_input_out))
 p3_xarr[2].plot(x_index_frequency,np.abs(fft_input_out_filtered))
-
+plt.tight_layout()
 plt.show()
 
 #problem 4 - Prestige
@@ -110,4 +114,5 @@ p4_xarr[2].plot(x_index_frequency,np.abs(fft_input_out_filtered))
 p4_xarr[3].set_title('frequency domain filtering, time domain')
 time_domain_ifft = ifft(fft_input_out_filtered)
 p4_xarr[3].plot(x_index,time_domain_ifft)
+plt.tight_layout()
 plt.show()
